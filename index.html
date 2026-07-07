@@ -1000,6 +1000,34 @@ class Component extends DCLogic {
     let ripColor = '255,255,255';
     function readRipple() { ripColor = (getComputedStyle(app).getPropertyValue('--ripple') || '255,255,255').trim(); }
 
+    /* ---------- PERF: visibility-gated animation loops ----------
+       Every heavy canvas/WebGL loop below is parked (no rAF churn) whenever the
+       element it draws is off-screen or the browser tab is hidden, then resumes
+       instantly. Nothing visual is removed — animations only run while you can
+       actually see them, which is what stops the page feeling heavy/laggy. */
+    const _gatedLoops = [];
+    function wake() { for (const fn of _gatedLoops) fn(); }
+    function gatedRAF(frame, isActive) {
+      let running = false;
+      const tick = (t) => {
+        if (document.hidden || !isActive()) { running = false; return; }
+        frame(t);
+        requestAnimationFrame(tick);
+      };
+      const ensure = () => { if (!running && !document.hidden && isActive()) { running = true; requestAnimationFrame(tick); } };
+      _gatedLoops.push(ensure);
+      try { frame(performance.now()); } catch (e) {} // paint one frame so nothing looks blank before it first activates
+      ensure();
+      return ensure;
+    }
+    function makeVisible(el, margin) {
+      if (!el) return () => false;
+      let vis = false;
+      new IntersectionObserver((es) => { es.forEach(e => { vis = e.isIntersecting; }); wake(); }, { rootMargin: margin || '0px' }).observe(el);
+      return () => vis;
+    }
+    document.addEventListener('visibilitychange', wake);
+
     /* ---------- LOADER ---------- */
     const ld = document.getElementById('ld');
     setTimeout(() => { if (ld) ld.classList.add('done'); }, reduce ? 400 : 2600);
@@ -1207,10 +1235,23 @@ class Component extends DCLogic {
        native anchor click, so force-open the PDF ourselves) ---------- */
     (function wireResume() {
       const link = document.getElementById('resumeLink');
+      const chk = document.getElementById('dlchk');
       if (!link) return;
       link.addEventListener('click', (e) => {
+        // Cancel the anchor's own navigation AND the native checkbox toggle, then
+        // drive the toggle ourselves — otherwise preventDefault kills the animation.
         e.preventDefault();
-        window.open(link.getAttribute('href'), '_blank', 'noopener');
+        if (chk && chk.checked) return; // already mid-animation
+        if (chk) { chk.checked = true; setTimeout(() => { chk.checked = false; }, 4200); }
+        const href = link.getAttribute('href');
+        const fname = link.getAttribute('download') || (href.split('/').pop() || 'resume.pdf');
+        try {
+          const a = document.createElement('a');
+          a.href = href; a.download = fname; a.rel = 'noopener';
+          document.body.appendChild(a); a.click(); a.remove();
+        } catch (err) {
+          window.open(href, '_blank');
+        }
       });
     })();
 
@@ -1291,7 +1332,7 @@ class Component extends DCLogic {
     /* ---------- MENU ---------- */
     const overlay = document.getElementById('menuOverlay');
     const mclose = document.getElementById('menuClose');
-    const openMenu = () => { overlay.classList.add('open'); mclose.classList.add('show'); };
+    const openMenu = () => { overlay.classList.add('open'); mclose.classList.add('show'); wake(); };
     const closeMenu = () => { overlay.classList.remove('open'); mclose.classList.remove('show'); };
     document.getElementById('menuOpen').addEventListener('click', openMenu);
     mclose.addEventListener('click', closeMenu);
@@ -1318,13 +1359,13 @@ class Component extends DCLogic {
     if (dot && ring && fine) {
       let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, dx = mx, dy = my;
       window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
-      (function loop() {
+      const loop = () => {
         dx += (mx - dx) * .5; dy += (my - dy) * .5;
         rx += (mx - rx) * .16; ry += (my - ry) * .16;
         dot.style.transform = `translate(${dx}px,${dy}px)`;
         ring.style.transform = `translate(${rx}px,${ry}px)`;
-        requestAnimationFrame(loop);
-      })();
+      };
+      gatedRAF(loop, () => true);
       document.addEventListener('mouseover', (e) => { if (e.target.closest('a,button,label,[data-cursor],.facewrap')) ring.classList.add('big'); });
       document.addEventListener('mouseout', (e) => { if (e.target.closest('a,button,label,[data-cursor],.facewrap')) ring.classList.remove('big'); });
     }
@@ -1336,7 +1377,7 @@ class Component extends DCLogic {
       window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
       const heroEl = document.getElementById('top');
       if (heroEl) new IntersectionObserver((es) => es.forEach(en => { pastHero = en.intersectionRatio < 0.4; }), { threshold: [0, 0.4, 1] }).observe(heroEl);
-      (function scloop() {
+      const scloop = () => {
         x += (mx - x) * 0.2; y += (my - y) * 0.2;
         const dx = x - px, dy = y - py, sp = Math.hypot(dx, dy);
         if (sp > 0.6) ang = Math.atan2(dy, dx) * 180 / Math.PI;
@@ -1345,8 +1386,8 @@ class Component extends DCLogic {
         sc.style.transform = 'translate(' + (x - 12) + 'px,' + y + 'px) rotate(' + (ang + 90) + 'deg) scale(' + scale.toFixed(2) + ')';
         if (pastHero) { sc.classList.add('on'); if (ring) ring.style.opacity = '0'; if (dot) dot.style.opacity = '0'; }
         else { sc.classList.remove('on'); if (ring) ring.style.opacity = ''; if (dot) dot.style.opacity = ''; }
-        requestAnimationFrame(scloop);
-      })();
+      };
+      gatedRAF(scloop, () => true);
     }
 
     const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'none'; io.unobserve(e.target); } }), { threshold: .12 });
@@ -1382,16 +1423,17 @@ class Component extends DCLogic {
     const heroSec = document.getElementById('top');
     const subject = document.getElementById('subject');
     const polywrap = document.getElementById('polywrap');
+    const heroVisible = makeVisible(heroSec, '200px');
     if (heroSec && (subject || polywrap)) {
       let nx = 0, ny = 0, sx = 0, sy = 0;
       heroSec.addEventListener('pointermove', (e) => { const r = heroSec.getBoundingClientRect(); nx = (e.clientX - r.left) / r.width - 0.5; ny = (e.clientY - r.top) / r.height - 0.5; });
       heroSec.addEventListener('pointerleave', () => { nx = 0; ny = 0; });
-      (function par() {
+      const par = () => {
         sx += (nx - sx) * 0.08; sy += (ny - sy) * 0.08;
         if (subject) subject.style.transform = 'translate(' + (sx * 22).toFixed(1) + 'px,' + (sy * 22).toFixed(1) + 'px)';
         if (polywrap) polywrap.style.transform = 'translate(' + (-sx * 55).toFixed(1) + 'px,' + (-sy * 55).toFixed(1) + 'px)';
-        requestAnimationFrame(par);
-      })();
+      };
+      gatedRAF(par, heroVisible);
     }
 
     /* ---------- SUIT UP toggle ---------- */
@@ -1399,7 +1441,7 @@ class Component extends DCLogic {
     if (suitBtn) suitBtn.addEventListener('click', () => {
       const on = app.classList.toggle('suited');
       suitBtn.textContent = on ? 'STAND DOWN' : 'SUIT UP';
-      if (on) startParticles();
+      if (on) { startParticles(); wake(); }
     });
 
     /* ---------- PARTICLES (suited background) ---------- */
@@ -1417,23 +1459,21 @@ class Component extends DCLogic {
       for (let i = 0; i < N; i++) ps.push({ x: Math.random(), y: Math.random(), z: Math.random(), s: Math.random() * 2 + 0.5, vx: (Math.random() - 0.5) * 0.0005, vy: (Math.random() - 0.5) * 0.0005 });
       let mxp = 0.5, myp = 0.5, smx = 0.5, smy = 0.5;
       heroSec.addEventListener('pointermove', (e) => { const r = pc.getBoundingClientRect(); mxp = (e.clientX - r.left) / r.width; myp = (e.clientY - r.top) / r.height; });
-      (function pd() {
+      function pd() {
         x.clearRect(0, 0, W, H);
-        if (app.classList.contains('suited')) {
-          smx += (mxp - smx) * 0.03; smy += (myp - smy) * 0.03;
-          for (const p of ps) {
-            p.x += p.vx; p.y += p.vy;
-            if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0; if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
-            const dx = p.x - smx, dy = p.y - smy, d = Math.hypot(dx, dy) || 0.0001;
-            let ox = 0, oy = 0; if (d < 0.1) { ox = dx / d * (0.1 - d) * 0.22; oy = dy / d * (0.1 - d) * 0.22; }
-            const cx2 = (p.x + ox) * W, cy2 = (p.y + oy) * H, rr = p.s * DPR * (0.5 + p.z);
-            x.beginPath(); x.arc(cx2, cy2, rr, 0, 7);
-            x.fillStyle = 'rgba(255,255,255,' + (0.22 + p.z * 0.55).toFixed(2) + ')';
-            x.fill();
-          }
+        smx += (mxp - smx) * 0.03; smy += (myp - smy) * 0.03;
+        for (const p of ps) {
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0; if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+          const dx = p.x - smx, dy = p.y - smy, d = Math.hypot(dx, dy) || 0.0001;
+          let ox = 0, oy = 0; if (d < 0.1) { ox = dx / d * (0.1 - d) * 0.22; oy = dy / d * (0.1 - d) * 0.22; }
+          const cx2 = (p.x + ox) * W, cy2 = (p.y + oy) * H, rr = p.s * DPR * (0.5 + p.z);
+          x.beginPath(); x.arc(cx2, cy2, rr, 0, 7);
+          x.fillStyle = 'rgba(255,255,255,' + (0.22 + p.z * 0.55).toFixed(2) + ')';
+          x.fill();
         }
-        requestAnimationFrame(pd);
-      })();
+      }
+      gatedRAF(pd, () => app.classList.contains('suited') && heroVisible());
     }
 
     /* ---------- GLOBE (menu · self-drawn dotted sphere) ---------- */
@@ -1471,10 +1511,11 @@ class Component extends DCLogic {
       const gUp = () => { dragging = false; };
       globeCanvas.addEventListener('pointerup', gUp); globeCanvas.addEventListener('pointercancel', gUp);
       const tilt = 0.32, ct = Math.cos(tilt), st = Math.sin(tilt);
-      (function gdraw(t) {
+      const gActive = () => overlay.classList.contains('open');
+      function gdraw(t) {
         if (globeCanvas.clientWidth && (Math.abs(GW - globeCanvas.clientWidth * GDPR) > 2)) gResize();
         gx.clearRect(0, 0, GW, GH);
-        if (overlay.classList.contains('open')) {
+        {
           if (!dragging) { vel += (0.004 - vel) * 0.02; rot += vel; }
           const cx = GW / 2, cy = GH / 2, R = Math.min(GW, GH) * 0.38;
           const light = app.getAttribute('data-theme') === 'light';
@@ -1508,8 +1549,8 @@ class Component extends DCLogic {
             gx.fillStyle = '#f5320c'; gx.fill();
           }
         }
-        requestAnimationFrame(gdraw);
-      })(0);
+      }
+      gatedRAF(gdraw, gActive);
       };
       // Prefer the WebGL globe (cobe) — mirrors the react-bits Globe recipe:
       // spring-damped drag rotation (r), continuous auto-spin (phi) added on top.
@@ -1579,9 +1620,18 @@ class Component extends DCLogic {
           });
         };
 
-        cobeInit = (light) => buildGlobe(light);
-        buildGlobe(isLightTheme());
-        globeCanvas.style.opacity = '1';
+        cobeInit = (light) => { if (globeInstance) buildGlobe(light); };
+        // Only run the WebGL globe while the menu is open — it renders continuously,
+        // so keeping it alive behind a closed menu was a big idle cost.
+        const syncGlobe = () => {
+          if (overlay.classList.contains('open')) {
+            if (!globeInstance) { buildGlobe(isLightTheme()); globeCanvas.style.opacity = '1'; }
+          } else if (globeInstance) {
+            globeInstance.destroy(); globeInstance = null;
+          }
+        };
+        new MutationObserver(syncGlobe).observe(overlay, { attributes: true, attributeFilter: ['class'] });
+        syncGlobe();
       }).catch(() => { clearTimeout(cobeTimer); startCanvasGlobe(); });
 
       // wire theme changes to whichever globe engine ended up running
@@ -1615,7 +1665,8 @@ class Component extends DCLogic {
         tsx = -((e.clientY - r.top) / r.height - 0.5) * 0.06;
       });
       cloud.addEventListener('pointerleave', () => { tsx = 0.0018; tsy = 0.0032; });
-      (function spin() {
+      const cloudVisible = makeVisible(cloud, '150px');
+      function spin() {
         // this runtime re-renders after mount and discards imperatively-added nodes — re-attach if gone
         if (!items[0].img.isConnected) items.forEach(it => cloud.appendChild(it.img));
         const R = (cloud.clientWidth || 480) * 0.42;
@@ -1634,8 +1685,8 @@ class Component extends DCLogic {
           it.img.style.opacity = (0.3 + d * 0.7).toFixed(3);
           it.img.style.zIndex = Math.round(d * 200);
         }
-        requestAnimationFrame(spin);
-      })();
+      }
+      gatedRAF(spin, cloudVisible);
     }
 
     /* ---------- LIQUID ETHER BACKGROUND (WebGL) ---------- */
@@ -1685,7 +1736,8 @@ class Component extends DCLogic {
         requestAnimationFrame(rz); setTimeout(rz, 300); setTimeout(rz, 1000);
         if (heroSec) heroSec.addEventListener('pointermove', (e) => { const r = lc.getBoundingClientRect(); mxx = (e.clientX-r.left)/r.width; myy = 1.0-(e.clientY-r.top)/r.height; });
         const t0 = performance.now();
-        (function ldraw() { gl.uniform2f(uRes, lc.width, lc.height); gl.uniform1f(uTime, (performance.now()-t0)/1000); gl.uniform2f(uMouse, mxx, myy); gl.drawArrays(gl.TRIANGLES, 0, 3); requestAnimationFrame(ldraw); })();
+        const ldraw = () => { gl.uniform2f(uRes, lc.width, lc.height); gl.uniform1f(uTime, (performance.now()-t0)/1000); gl.uniform2f(uMouse, mxx, myy); gl.drawArrays(gl.TRIANGLES, 0, 3); };
+        gatedRAF(ldraw, heroVisible);
       } else {
         lc.style.background = 'radial-gradient(60% 60% at 40% 35%,#2a1206,#0e0d0c)';
       }
@@ -1697,14 +1749,17 @@ class Component extends DCLogic {
     const resize = () => { W = cv.width = innerWidth * DPR; H = cv.height = innerHeight * DPR; cv.style.width = innerWidth + 'px'; cv.style.height = innerHeight + 'px'; };
     resize(); window.addEventListener('resize', resize); readRipple();
     const ripples = [];
-    const addRipple = (x, y, strong) => { ripples.push({ x: x * DPR, y: y * DPR, r: 2, max: (strong ? 190 : 120) * DPR, a: strong ? .5 : .32 }); if (ripples.length > 60) ripples.shift(); };
+    let waterWake = () => {};
+    const addRipple = (x, y, strong) => { ripples.push({ x: x * DPR, y: y * DPR, r: 2, max: (strong ? 190 : 120) * DPR, a: strong ? .5 : .32 }); if (ripples.length > 60) ripples.shift(); waterWake(); };
     let last = 0;
     window.addEventListener('mousemove', (e) => { const now = performance.now(); if (now - last > 55) { last = now; addRipple(e.clientX, e.clientY, false); } });
     window.addEventListener('click', (e) => addRipple(e.clientX, e.clientY, true));
-    let amb = 0;
-    (function draw(t) {
+    // ambient ripples on a timer (only while visible & not reduced-motion) — the
+    // draw loop parks itself the moment the ripple list empties, so an idle page
+    // no longer repaints a full-screen canvas every frame for nothing.
+    if (!reduce) setInterval(() => { if (!document.hidden) addRipple(Math.random() * innerWidth, Math.random() * innerHeight, false); }, 1400);
+    const draw = () => {
       ctx.clearRect(0, 0, W, H);
-      if (!reduce && t - amb > 1400) { amb = t; addRipple(Math.random() * innerWidth, Math.random() * innerHeight, false); }
       for (let i = ripples.length - 1; i >= 0; i--) {
         const p = ripples[i]; p.r += (p.max - p.r) * .045; p.a *= .975;
         if (p.a < .01 || p.r > p.max - 1) { ripples.splice(i, 1); continue; }
@@ -1713,8 +1768,8 @@ class Component extends DCLogic {
         ctx.beginPath(); ctx.arc(p.x, p.y, p.r * .6, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${ripColor},${p.a * .5})`; ctx.lineWidth = 1 * DPR; ctx.stroke();
       }
-      requestAnimationFrame(draw);
-    })(0);
+    };
+    waterWake = gatedRAF(draw, () => ripples.length > 0);
   }
 }
 </script>

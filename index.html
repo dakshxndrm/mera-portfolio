@@ -12,8 +12,45 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
+/* ============================================================================
+   DAKSH MAHERA — PORTFOLIO  ·  EDITING GUIDE
+   ----------------------------------------------------------------------------
+   This one file holds everything. It has 3 parts, top to bottom:
+     1) the helmet STYLE block (this one)  = ALL styling (fonts, colors, animations)
+     2) The page markup (after the helmet) = the actual content you see, split
+        into clearly-labelled sections: HERO, EXPERIENCE, PROJECTS, etc.
+     3) the SCRIPT block at the very bottom = the behaviour (menu, globe,
+        cursor, scroll animations). You rarely need to touch this.
+
+   COMMON EDITS — where to go:
+   • Colors / theme ....... "THEME TOKENS" block just below (edit the --acc etc.)
+   • Fonts ................ same THEME TOKENS block (--disp / --body / --mono)
+     and the Google Fonts <link> above.
+   • Your name / headline . <!-- ===== HERO ===== --> section
+   • Experience ........... <!-- ===== EXPERIENCE ===== -->  (one <div data-item> each)
+   • Projects ............. <!-- ===== PROJECTS ===== -->    (one <div data-item> each)
+   • Skills / Toolkit ..... <!-- ===== SKILLS ===== -->  chips + icon-cloud slug
+                            list is in the SCRIPT (search "const slugs").
+   • Achievements ......... <!-- ===== ACHIEVEMENTS ===== -->
+   • Resume PDF ........... replace the file assets/Daksh-Mahera-Resume.pdf
+                            (link is in <!-- ===== RESUME ===== -->)
+   • Contact / links ...... <!-- ===== CONTACT ===== -->  (email, socials,
+                            Important Links, Also-Find-Me-On)
+   • Menu items ........... <!-- ===== MENU OVERLAY ===== -->
+
+   TIP: to add a project/experience/skill, copy an existing <div data-item>…</div>
+   (or skill <span>…</span>) and change the text inside. Everything is plain HTML.
+   ============================================================================ */
+
+/* ---------- RESET ---------- */
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+
+/* ---------- THEME TOKENS (edit colors & fonts HERE) ----------
+   --acc   = accent colour used across the whole site (buttons, highlights)
+   --disp  = display/heading font   --body = body text font   --mono = labels
+   --bg/--fg = page background / text.  The [data-theme="light"] block below
+   overrides these for the light theme (toggled by the lever in the top bar). */
 #app{
   --acc:#f5320c; --disp:'Syne',sans-serif; --body:'Space Grotesk',sans-serif; --mono:'Space Mono',monospace;
   --bg:#0e0d0c; --fg:#f2efe8; --line:rgba(255,255,255,.14); --dim:#9a938a;
@@ -75,6 +112,8 @@ a{color:inherit}
 #scursor{position:fixed;top:0;left:0;pointer-events:none;z-index:10001;opacity:0;transition:opacity .25s;transform-origin:12px 0;mix-blend-mode:difference;will-change:transform,opacity}
 #scursor.on{opacity:1}
 @media (hover:none),(pointer:coarse){#cur,#curr,#scursor{display:none}body,#app{cursor:auto}}
+/* fine-pointer devices: hide the native cursor everywhere so ONLY the custom cursor shows (no hand/pointer/grab leaking through) */
+@media (hover:hover) and (pointer:fine){#app,#app *{cursor:none !important}}
 
 /* ---------- FLIP ---------- */
 .flip{display:inline-flex;position:relative;overflow:hidden;line-height:1.05;vertical-align:top}
@@ -449,10 +488,16 @@ a{color:inherit}
     <div class="mview" data-panel="hobbies">
       <div class="mvh">Hobbies</div>
       <div data-store="hobbies" style="display:flex;flex-wrap:wrap;gap:12px">
-        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Chess<button data-del title="Delete" style="margin-left:4px">×</button></span>
-        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Reading<button data-del title="Delete" style="margin-left:4px">×</button></span>
-        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Long walks<button data-del title="Delete" style="margin-left:4px">×</button></span>
-        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Sketching<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Chess Tactics<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Cricket<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Formula 1<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">YouTube Rabbit-Holes<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Geopolitics<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Astrology<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Science Facts<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Music On Repeat<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Long Walks<button data-del title="Delete" style="margin-left:4px">×</button></span>
+        <span data-item data-editable style="position:relative;font-family:var(--disp);font-weight:600;font-size:clamp(18px,2.4vw,28px);text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:10px 20px">Bike Rides<button data-del title="Delete" style="margin-left:4px">×</button></span>
       </div>
       <button class="addbtn" data-add="hobbies:tpl-hobby" style="margin-top:22px">+ Add hobby</button>
     </div>
@@ -861,8 +906,6 @@ a{color:inherit}
         <p class="title b">Saved</p>
       </label>
     </a>
-    <button class="resupbtn" id="resumeUploadBtn">⇧ Update résumé (PDF)</button>
-    <input type="file" id="resumeUpload" accept="application/pdf">
   </div>
 </section>
 
@@ -901,32 +944,23 @@ a{color:inherit}
   <div style="margin-top:clamp(50px,7vw,74px)">
     <div style="font-family:var(--mono);font-size:12px;letter-spacing:.4em;color:var(--acc);margin-bottom:8px">/ ALSO FIND ME ON</div>
     <p style="color:var(--dim);font-weight:300;font-size:14px;margin-bottom:20px">Other platforms, communities and profiles I'm active on.</p>
-    <div data-store="socials" style="max-width:680px;margin:0 auto;border-top:1px solid var(--line);text-align:left">
-      <div data-item style="position:relative">
-        <button data-del title="Delete" style="position:absolute;top:16px;left:-32px;z-index:2">×</button>
-        <a class="linkrow fliptrig" data-linkedit href="https://leetcode.com/" target="_blank" rel="noopener"><span class="flip"><span class="r" data-editable>LeetCode</span><span class="r clone">LeetCode</span></span><span class="lurl">leetcode.com</span><span class="arr">↗</span></a>
-      </div>
-      <div data-item style="position:relative">
-        <button data-del title="Delete" style="position:absolute;top:16px;left:-32px;z-index:2">×</button>
-        <a class="linkrow fliptrig" data-linkedit href="https://x.com/" target="_blank" rel="noopener"><span class="flip"><span class="r" data-editable>Twitter / X</span><span class="r clone">Twitter / X</span></span><span class="lurl">x.com</span><span class="arr">↗</span></a>
+    <div style="max-width:680px;margin:0 auto;border-top:1px solid var(--line);text-align:left">
+      <div style="position:relative">
+        <a class="linkrow fliptrig" href="https://leetcode.com/u/maheradaksh22/" target="_blank" rel="noopener"><span class="flip"><span class="r">LeetCode</span><span class="r clone">LeetCode</span></span><span class="lurl">leetcode.com/u/maheradaksh22</span><span class="arr">↗</span></a>
       </div>
     </div>
-    <button class="addbtn" data-add="socials:tpl-link" style="margin-top:26px">+ Add platform</button>
   </div>
   <div style="margin-top:clamp(50px,7vw,80px)">
     <div style="font-family:var(--mono);font-size:12px;letter-spacing:.4em;color:var(--acc);margin-bottom:8px">/ OTHER IMPORTANT LINKS</div>
-    <p style="color:var(--dim);font-weight:300;font-size:14px;margin-bottom:24px">Deployed projects, live and clickable. In edit mode, click a button to change its URL.</p>
-    <div data-store="links2" style="max-width:680px;margin:0 auto;border-top:1px solid var(--line);text-align:left">
-      <div data-item style="position:relative">
-        <button data-del title="Delete" style="position:absolute;top:16px;left:-32px;z-index:2">×</button>
-        <a class="linkrow fliptrig" data-linkedit href="https://github.com/dakshxndrm" target="_blank" rel="noopener"><span class="flip"><span class="r" data-editable>Nimbus — Live</span><span class="r clone">Nimbus — Live</span></span><span class="lurl">github.com/dakshxndrm</span><span class="arr">↗</span></a>
+    <p style="color:var(--dim);font-weight:300;font-size:14px;margin-bottom:24px">Deployed projects and published work — live and clickable.</p>
+    <div style="max-width:680px;margin:0 auto;border-top:1px solid var(--line);text-align:left">
+      <div style="position:relative">
+        <a class="linkrow fliptrig" href="https://career-ai-220204.vercel.app/" target="_blank" rel="noopener"><span class="flip"><span class="r">Career Atlas</span><span class="r clone">Career Atlas</span></span><span class="lurl">career-ai-220204.vercel.app</span><span class="arr">↗</span></a>
       </div>
-      <div data-item style="position:relative">
-        <button data-del title="Delete" style="position:absolute;top:16px;left:-32px;z-index:2">×</button>
-        <a class="linkrow fliptrig" data-linkedit href="https://github.com/dakshxndrm" target="_blank" rel="noopener"><span class="flip"><span class="r" data-editable>Relay — Demo</span><span class="r clone">Relay — Demo</span></span><span class="lurl">github.com/dakshxndrm</span><span class="arr">↗</span></a>
+      <div style="position:relative">
+        <a class="linkrow fliptrig" href="https://journals.stmjournals.com/ttea/article=2025/view=230742/" target="_blank" rel="noopener"><span class="flip"><span class="r">Research Paper</span><span class="r clone">Research Paper</span></span><span class="lurl">journals.stmjournals.com/ttea</span><span class="arr">↗</span></a>
       </div>
     </div>
-    <button class="addbtn" data-add="links2:tpl-link" style="margin-top:26px">+ Add link</button>
   </div>
 </section>
 
@@ -935,18 +969,27 @@ a{color:inherit}
   <span style="opacity:.65">SUIT UP. SHIP CODE.</span>
 </footer>
 
-<!-- ===== EDIT BAR ===== -->
-<div id="editbar">
-  <button class="ebtn" id="editToggle">✎ Edit</button>
-  <button class="ebtn hid" id="exportBtn">Export</button>
-  <button class="ebtn hid" id="importBtn">Import</button>
-  <button class="ebtn hid" id="resetBtn">Reset</button>
-  <input type="file" id="importFile" accept="application/json" style="display:none">
-</div>
+<!-- edit bar removed -->
 
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
+/* ============================================================================
+   BEHAVIOUR / LOGIC  —  you rarely need to edit this.
+   Everything runs inside componentDidMount() once the page mounts. It's grouped
+   into labelled blocks (each starts with a dashed NAME banner comment)
+   so you can jump to what you want:
+     • MENU / NAV .......... opens & closes the side menu, section switching
+     • GLOBE ............... the spinning globe in the menu (auto light/dark)
+     • ICON CLOUD .......... the 3D spinning tech logos — the tech shown is the
+                             `const slugs = [...]` array (add/remove logo names)
+     • SUIT-UP ............. the Iron-Man hero reveal animation
+     • CURSOR .............. the custom arrow cursor
+     • REVEALS / SCROLL .... fade/zoom-in-on-scroll effects
+     • MARQUEE ............. the scrolling text strip
+     • EMAIL LINKS ......... makes mailto: buttons also copy the address
+   To change tech logos in the cloud: search for "const slugs" below.
+   ============================================================================ */
 class Component extends DCLogic {
   componentDidMount() {
     const PREFIX = 'dmp_';
@@ -974,6 +1017,7 @@ class Component extends DCLogic {
     // restore
     const SKILLS_DEFAULT_HTML = (function () { const s = $('[data-store="skills"]'); return s ? s.innerHTML : ''; })();
     const EDU_DEFAULT_HTML = (function () { const s = $('[data-store="education"]'); return s ? s.innerHTML : ''; })();
+    const HOBBIES_DEFAULT_HTML = (function () { const s = $('[data-store="hobbies"]'); return s ? s.innerHTML : ''; })();
     stores().forEach(el => {
       const saved = localStorage.getItem(PREFIX + el.dataset.store);
       if (saved && saved.trim()) el.innerHTML = saved;
@@ -982,12 +1026,14 @@ class Component extends DCLogic {
     // copy once so the grouped template (with Seaborn/TensorFlow/Keras) loads fresh.
     (function reseedSkills() {
       const KEY = PREFIX + 'skillsSeed';
-      if (localStorage.getItem(KEY) === 'v5') return;
+      if (localStorage.getItem(KEY) === 'v6') return;
       try { localStorage.removeItem(PREFIX + 'skills'); } catch (e) {}
       try { localStorage.removeItem(PREFIX + 'education'); } catch (e) {}
+      try { localStorage.removeItem(PREFIX + 'hobbies'); } catch (e) {}
       const sk = $('[data-store="skills"]'); if (sk) sk.innerHTML = SKILLS_DEFAULT_HTML;
       const ed = $('[data-store="education"]'); if (ed) ed.innerHTML = EDU_DEFAULT_HTML;
-      try { localStorage.setItem(KEY, 'v5'); } catch (e) {}
+      const hb = $('[data-store="hobbies"]'); if (hb) hb.innerHTML = HOBBIES_DEFAULT_HTML;
+      try { localStorage.setItem(KEY, 'v6'); } catch (e) {}
     })();
 
     // migrate: older saved "achievements" HTML predates the photo-slot feature —
@@ -1061,97 +1107,7 @@ class Component extends DCLogic {
 
     /* ---------- EDIT MODE ---------- */
     let editing = false;
-    const setEditable = (on) => {
-      $$('[data-editable]').forEach(el => { el.contentEditable = on ? 'true' : 'false'; });
-    };
-    const editToggle = document.getElementById('editToggle');
-    const extra = ['exportBtn', 'importBtn', 'resetBtn'].map(id => document.getElementById(id));
 
-    /* ---------- OWNER-ONLY EDIT LOCK ----------
-       Client-side only: deters casual visitors from editing your live site.
-       Anyone reading the page source can find the passcode, so don't treat this
-       as real security — just a lightweight gate. Change PASSCODE below to your own. */
-    const PASSCODE = 'daksh2026';
-    const AUTH_KEY = PREFIX + 'ownerAuthed';
-    const isAuthed = () => sessionStorage.getItem(AUTH_KEY) === '1';
-    const enterEditing = () => {
-      editing = true;
-      app.classList.add('editing');
-      editToggle.classList.add('on');
-      editToggle.textContent = '✓ Done';
-      extra.forEach(b => b.classList.remove('hid'));
-      setEditable(true);
-    };
-    const exitEditing = () => {
-      editing = false;
-      app.classList.remove('editing');
-      editToggle.classList.remove('on');
-      editToggle.textContent = '✎ Edit';
-      extra.forEach(b => b.classList.add('hid'));
-      setEditable(false);
-    };
-    // Reusable owner-passcode gate. If already authed this session, runs onSuccess
-    // immediately; otherwise shows a clear centered dialog. Pass a title + optional
-    // subtitle so the same gate reads correctly for Edit vs. résumé.
-    const requireOwner = (onSuccess, opts) => {
-      opts = opts || {};
-      if (isAuthed()) { onSuccess(); return; }
-      document.querySelectorAll('.pcodepop').forEach(p => p.remove());
-      const wrap = document.createElement('div');
-      wrap.className = 'pcodepop';
-      wrap.style.cssText = 'position:fixed;inset:0;z-index:6000;background:rgba(6,5,5,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;cursor:auto;animation:fadeUp .25s ease';
-      const box = document.createElement('div');
-      box.style.cssText = 'background:#f7f5f0;color:#1a1512;border:1px solid var(--acc);border-radius:16px;padding:32px 30px;width:min(380px,90vw);display:flex;flex-direction:column;gap:6px;font-family:var(--mono);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 6px rgba(245,50,12,.08)';
-      const lock = document.createElement('div');
-      lock.textContent = '🔒';
-      lock.style.cssText = 'font-size:26px;margin-bottom:4px';
-      const lbl = document.createElement('div');
-      lbl.textContent = opts.title || 'OWNER ACCESS';
-      lbl.style.cssText = 'font-family:var(--disp);font-weight:800;font-size:22px;letter-spacing:.02em;text-transform:uppercase;color:#1a1512';
-      const sub = document.createElement('div');
-      sub.textContent = opts.subtitle || 'Enter your passcode to make changes.';
-      sub.style.cssText = 'font-size:12px;line-height:1.6;color:#6b6259;margin-bottom:14px';
-      const inp = document.createElement('input');
-      inp.type = 'password'; inp.placeholder = 'Passcode'; inp.autocomplete = 'off';
-      inp.style.cssText = 'font-family:var(--mono);font-size:16px;padding:14px 16px;border:1.5px solid #cfc8bd;border-radius:10px;background:#fff;color:#1a1512;outline:none;letter-spacing:.1em;transition:border-color .2s';
-      inp.addEventListener('focus', () => { inp.style.borderColor = 'var(--acc)'; });
-      inp.addEventListener('blur', () => { inp.style.borderColor = '#cfc8bd'; });
-      const err = document.createElement('div');
-      err.style.cssText = 'font-size:12px;color:#ff6a52;min-height:16px;margin-top:8px';
-      const row = document.createElement('div');
-      row.style.cssText = 'display:flex;gap:10px;justify-content:flex-end;margin-top:14px';
-      const cancel = document.createElement('button');
-      cancel.type = 'button'; cancel.textContent = 'Cancel';
-      cancel.style.cssText = 'font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:#fff;color:#1a1512;border:1.5px solid #cfc8bd;border-radius:99px;padding:11px 20px;cursor:pointer';
-      const ok = document.createElement('button');
-      ok.type = 'button'; ok.textContent = 'Unlock';
-      ok.style.cssText = 'font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;background:#f5320c;color:#fff;border:none;border-radius:99px;padding:11px 24px;cursor:pointer;box-shadow:0 6px 20px rgba(245,50,12,.35)';
-      row.appendChild(cancel); row.appendChild(ok);
-      box.appendChild(lock); box.appendChild(lbl); box.appendChild(sub); box.appendChild(inp); box.appendChild(err); box.appendChild(row);
-      wrap.appendChild(box);
-      document.body.appendChild(wrap);
-      setTimeout(() => inp.focus(), 30);
-      const close = () => wrap.remove();
-      const tryUnlock = () => {
-        if (inp.value === PASSCODE) {
-          sessionStorage.setItem(AUTH_KEY, '1');
-          close();
-          onSuccess();
-        } else {
-          err.textContent = 'Incorrect passcode. Try again.';
-          box.animate([{ transform: 'translateX(-6px)' }, { transform: 'translateX(6px)' }, { transform: 'translateX(0)' }], { duration: 240 });
-          inp.value = ''; inp.focus();
-        }
-      };
-      cancel.addEventListener('click', close);
-      wrap.addEventListener('click', (e) => { if (e.target === wrap) close(); });
-      inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') tryUnlock(); if (e.key === 'Escape') close(); });
-      ok.addEventListener('click', tryUnlock);
-    };
-    editToggle.addEventListener('click', () => {
-      if (editing) { exitEditing(); return; }
-      requireOwner(enterEditing, { title: 'Owner Access', subtitle: 'Enter your passcode to edit this portfolio.' });
-    });
 
     /* ---------- ADD / DELETE (delegated) ---------- */
     document.addEventListener('click', (e) => {
@@ -1256,36 +1212,6 @@ class Component extends DCLogic {
       }
     }, true);
 
-    /* ---------- RESUME UPLOAD / PERSIST ---------- */
-    const resumeLink = document.getElementById('resumeLink');
-    const resumeUploadBtn = document.getElementById('resumeUploadBtn');
-    const resumeUpload = document.getElementById('resumeUpload');
-    const applyStoredResume = () => {
-      const data = localStorage.getItem(PREFIX + 'resumeData');
-      const name = localStorage.getItem(PREFIX + 'resumeName');
-      if (data && resumeLink) { resumeLink.setAttribute('href', data); resumeLink.setAttribute('download', name || 'Resume.pdf'); }
-    };
-    applyStoredResume();
-    if (resumeUploadBtn && resumeUpload) {
-      resumeUploadBtn.addEventListener('click', () => requireOwner(() => resumeUpload.click(), { title: 'Owner Access', subtitle: 'Enter your passcode to update the résumé.' }));
-      resumeUpload.addEventListener('change', () => {
-        const f = resumeUpload.files[0];
-        if (!f) return;
-        if (f.type !== 'application/pdf') { alert('Please choose a PDF file.'); return; }
-        const r = new FileReader();
-        r.onload = () => {
-          try {
-            localStorage.setItem(PREFIX + 'resumeData', r.result);
-            localStorage.setItem(PREFIX + 'resumeName', f.name);
-            applyStoredResume();
-            resumeUploadBtn.textContent = '✓ Résumé updated';
-            setTimeout(() => { resumeUploadBtn.textContent = '⇧ Update résumé (PDF)'; }, 2200);
-          } catch (err) { alert('That PDF is too large to store in the browser. Try a smaller file.'); }
-        };
-        r.readAsDataURL(f);
-      });
-    }
-
     /* ---------- EMAIL LINKS: open mail app, with copy-to-clipboard fallback + toast ---------- */
     let emailToast = null;
     const showEmailToast = (msg) => {
@@ -1343,43 +1269,6 @@ class Component extends DCLogic {
     if (thStore) new MutationObserver(updVT).observe(thStore, { childList: true, subtree: true, characterData: true });
     document.addEventListener('input', (e) => { if (e.target.closest && e.target.closest('[data-store="thoughts"]')) setTimeout(updVT, 50); });
 
-    /* ---------- EXPORT / IMPORT / RESET ---------- */
-    document.getElementById('exportBtn').addEventListener('click', () => {
-      const data = {};
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k.startsWith(PREFIX)) data[k] = localStorage.getItem(k);
-      }
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'daksh-portfolio-content.json';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    });
-    const importFile = document.getElementById('importFile');
-    document.getElementById('importBtn').addEventListener('click', () => importFile.click());
-    importFile.addEventListener('change', () => {
-      const f = importFile.files[0];
-      if (!f) return;
-      const r = new FileReader();
-      r.onload = () => {
-        try {
-          const data = JSON.parse(r.result);
-          Object.keys(data).forEach(k => { if (k.startsWith(PREFIX)) localStorage.setItem(k, data[k]); });
-          location.reload();
-        } catch (err) { alert('Could not read that file.'); }
-      };
-      r.readAsText(f);
-    });
-    document.getElementById('resetBtn').addEventListener('click', () => {
-      if (!confirm('Reset all edits back to the original content?')) return;
-      const keys = [];
-      for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k.startsWith(PREFIX)) keys.push(k); }
-      keys.forEach(k => localStorage.removeItem(k));
-      location.reload();
-    });
-
     /* ---------- THEME ---------- */
     const themeToggle = document.getElementById('themeToggle');
     const applyTheme = (t) => {
@@ -1425,9 +1314,15 @@ class Component extends DCLogic {
     const dot = document.getElementById('cur'), ring = document.getElementById('curr');
     const fine = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
     if (dot && ring && fine) {
-      let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
-      window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px,${my}px)`; });
-      (function loop() { rx += (mx - rx) * .18; ry += (my - ry) * .18; ring.style.transform = `translate(${rx}px,${ry}px)`; requestAnimationFrame(loop); })();
+      let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my, dx = mx, dy = my;
+      window.addEventListener('mousemove', (e) => { mx = e.clientX; my = e.clientY; });
+      (function loop() {
+        dx += (mx - dx) * .5; dy += (my - dy) * .5;
+        rx += (mx - rx) * .16; ry += (my - ry) * .16;
+        dot.style.transform = `translate(${dx}px,${dy}px)`;
+        ring.style.transform = `translate(${rx}px,${ry}px)`;
+        requestAnimationFrame(loop);
+      })();
       document.addEventListener('mouseover', (e) => { if (e.target.closest('a,button,label,[data-cursor],.facewrap')) ring.classList.add('big'); });
       document.addEventListener('mouseout', (e) => { if (e.target.closest('a,button,label,[data-cursor],.facewrap')) ring.classList.remove('big'); });
     }

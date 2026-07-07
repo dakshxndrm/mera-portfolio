@@ -1203,6 +1203,17 @@ class Component extends DCLogic {
       }
     }, true);
 
+    /* ---------- RESUME DOWNLOAD (robust: the fancy label/checkbox can swallow the
+       native anchor click, so force-open the PDF ourselves) ---------- */
+    (function wireResume() {
+      const link = document.getElementById('resumeLink');
+      if (!link) return;
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.open(link.getAttribute('href'), '_blank', 'noopener');
+      });
+    })();
+
     /* ---------- EMAIL LINKS: open mail app, with copy-to-clipboard fallback + toast ---------- */
     let emailToast = null;
     const showEmailToast = (msg) => {

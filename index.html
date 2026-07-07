@@ -1014,26 +1014,17 @@ class Component extends DCLogic {
         try { localStorage.setItem(PREFIX + key, el.innerHTML); } catch (e) {}
       }, 250);
     };
-    // restore
-    const SKILLS_DEFAULT_HTML = (function () { const s = $('[data-store="skills"]'); return s ? s.innerHTML : ''; })();
-    const EDU_DEFAULT_HTML = (function () { const s = $('[data-store="education"]'); return s ? s.innerHTML : ''; })();
-    const HOBBIES_DEFAULT_HTML = (function () { const s = $('[data-store="hobbies"]'); return s ? s.innerHTML : ''; })();
-    stores().forEach(el => {
-      const saved = localStorage.getItem(PREFIX + el.dataset.store);
-      if (saved && saved.trim()) el.innerHTML = saved;
-    });
-    // one-time reseed: earlier builds saved a labelless skills list; drop the saved
-    // copy once so the grouped template (with Seaborn/TensorFlow/Keras) loads fresh.
-    (function reseedSkills() {
-      const KEY = PREFIX + 'skillsSeed';
-      if (localStorage.getItem(KEY) === 'v6') return;
-      try { localStorage.removeItem(PREFIX + 'skills'); } catch (e) {}
-      try { localStorage.removeItem(PREFIX + 'education'); } catch (e) {}
-      try { localStorage.removeItem(PREFIX + 'hobbies'); } catch (e) {}
-      const sk = $('[data-store="skills"]'); if (sk) sk.innerHTML = SKILLS_DEFAULT_HTML;
-      const ed = $('[data-store="education"]'); if (ed) ed.innerHTML = EDU_DEFAULT_HTML;
-      const hb = $('[data-store="hobbies"]'); if (hb) hb.innerHTML = HOBBIES_DEFAULT_HTML;
-      try { localStorage.setItem(KEY, 'v6'); } catch (e) {}
+    // NOTE: editing is disabled on this site, so the HTML markup is the single
+    // source of truth. We intentionally DO NOT restore content from localStorage
+    // any more — otherwise stale data saved during earlier editing sessions would
+    // override the real, baked-in content (this caused the Wins/achievements to
+    // show old placeholder text on some browsers). Purge any old saved keys once.
+    (function purgeLegacyStores() {
+      try {
+        stores().forEach(el => localStorage.removeItem(PREFIX + el.dataset.store));
+        localStorage.removeItem(PREFIX + 'resumeData');
+        localStorage.removeItem(PREFIX + 'resumeName');
+      } catch (e) {}
     })();
 
     // migrate: older saved "achievements" HTML predates the photo-slot feature —

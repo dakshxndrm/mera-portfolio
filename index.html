@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>Daksh Mahera — Software Development Engineer &amp; Builder</title>
-<meta name="description" content="Daksh Mahera is a software development engineer and engineering student from India — RHCSA and Red Hat Ansible certified, Google Cloud Data Analytics certified, SIH 2025 hackathon finalist. See his projects, experience and résumé.">
+<meta name="description" content="Daksh Mahera — software development engineer. RHCSA &amp; Red Hat Ansible certified, Google Cloud Data Analytics certified, SIH 2025 finalist. See my work.">
 <link rel="canonical" href="https://dakshxmahera.vercel.app/">
 <meta name="author" content="Daksh Mahera">
 <meta name="robots" content="index,follow,max-image-preview:large">
@@ -240,7 +240,7 @@ a{color:inherit}
 .polywrap{position:absolute;inset:0;z-index:1;will-change:transform}
 .particles{position:absolute;inset:0;width:100%;height:100%;z-index:0;display:block;opacity:0;transition:opacity .9s ease}
 /* 4 suit parts assemble on suit-up */
-.suitpart{position:absolute;inset:0;background:url(assets/ironman-cut.png) center 22%/cover no-repeat;opacity:0;transition:transform 2.3s cubic-bezier(.2,.8,.2,1),opacity 1.5s ease;-webkit-mask-image:radial-gradient(ellipse 60% 66% at 50% 40%,#000 50%,transparent 100%);mask-image:radial-gradient(ellipse 60% 66% at 50% 40%,#000 50%,transparent 100%);filter:drop-shadow(0 0 1.4px #000) drop-shadow(0 0 1.4px #000)}
+.suitpart{position:absolute;inset:0;background:url(assets/ironman-cut.png) center 22%/cover no-repeat;background-image:-webkit-image-set(url(assets/ironman-cut.webp) type("image/webp"),url(assets/ironman-cut.png) type("image/png"));background-image:image-set(url(assets/ironman-cut.webp) type("image/webp"),url(assets/ironman-cut.png) type("image/png"));opacity:0;transition:transform 2.3s cubic-bezier(.2,.8,.2,1),opacity 1.5s ease;-webkit-mask-image:radial-gradient(ellipse 60% 66% at 50% 40%,#000 50%,transparent 100%);mask-image:radial-gradient(ellipse 60% 66% at 50% 40%,#000 50%,transparent 100%);filter:drop-shadow(0 0 1.4px #000) drop-shadow(0 0 1.4px #000)}
 .suitpart.tl{clip-path:polygon(0 0,50% 0,50% 50%,0 50%);transform:translate(-70%,-70%) rotate(-8deg)}
 .suitpart.tr{clip-path:polygon(50% 0,100% 0,100% 50%,50% 50%);transform:translate(70%,-70%) rotate(8deg)}
 .suitpart.bl{clip-path:polygon(0 50%,50% 50%,50% 100%,0 100%);transform:translate(-70%,70%) rotate(8deg)}
@@ -493,7 +493,10 @@ a{color:inherit}
     <canvas class="particles" id="particles"></canvas>
     <div class="polywrap" id="polywrap"><span class="poly p1"></span><span class="poly p2"></span><span class="poly p3"></span></div>
     <div class="subject" id="subject">
-      <img class="hbg face" src="assets/face.png" alt="Daksh Mahera" draggable="false">
+      <picture>
+        <source type="image/webp" srcset="assets/face-1280.webp 1280w, assets/face-2000.webp 2000w" sizes="100vw">
+        <img class="hbg face" src="assets/face-2000.webp" alt="Daksh Mahera" width="2000" height="1250" draggable="false" fetchpriority="high" decoding="async">
+      </picture>
       <div class="suitpart tl"></div><div class="suitpart tr"></div><div class="suitpart bl"></div><div class="suitpart br"></div>
     </div>
     <div class="hflow"></div>
@@ -778,7 +781,7 @@ a{color:inherit}
       
       <div class="pcard">
         <div class="dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
-        <div class="achimg" style="background:#fff"><img src="assets/ach-sih.jpg" alt="SIH 2025 Internal Hackathon" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="achimg" style="background:#fff"><img src="assets/ach-sih.webp" alt="SIH 2025 Internal Hackathon" loading="lazy" decoding="async" width="700" height="394" style="width:100%;height:100%;object-fit:cover"></div>
         <h3 data-editable>2025</h3>
         <p class="pdesc" data-editable>Winner — Smart India Hackathon 2025 (Internal Round). Led my team through a build-under-pressure sprint and came out on top. Nothing sharpens you like a deadline and a whiteboard full of ideas.</p>
       </div>
@@ -787,7 +790,7 @@ a{color:inherit}
       
       <div class="pcard">
         <div class="dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
-        <div class="achimg" style="background:#fff"><img src="assets/ach-rhcsa.png" alt="RHCSA" style="width:100%;height:100%;object-fit:contain"></div>
+        <div class="achimg" style="background:#fff"><img src="assets/ach-rhcsa.webp" alt="RHCSA" loading="lazy" decoding="async" width="186" height="186" style="width:100%;height:100%;object-fit:contain"></div>
         <h3 data-editable>Red Hat Certified System Administrator</h3>
         <p class="pdesc" data-editable>RHCSA certified — proving I can actually run and troubleshoot Linux systems in the real world, not just talk about them. My gateway into serious infrastructure.</p>
       </div>
@@ -796,7 +799,7 @@ a{color:inherit}
       
       <div class="pcard">
         <div class="dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
-        <div class="achimg" style="background:#fff"><img src="assets/ach-rhce.png" alt="Red Hat Ansible Automation" style="width:100%;height:100%;object-fit:contain"></div>
+        <div class="achimg" style="background:#fff"><img src="assets/ach-rhce.webp" alt="Red Hat Ansible Automation" loading="lazy" decoding="async" width="700" height="700" style="width:100%;height:100%;object-fit:contain"></div>
         <h3 data-editable>RHCE — Ansible Automation <span style="opacity:.6;font-size:.8em">(in progress)</span></h3>
         <p class="pdesc" data-editable>Completed Red Hat's Enterprise Linux Automation with Ansible course; RHCE certification underway. Learning to make machines do the boring work so humans don't have to.</p>
       </div>
@@ -805,7 +808,7 @@ a{color:inherit}
       
       <div class="pcard">
         <div class="dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
-        <div class="achimg" style="background:#fff"><img src="assets/ach-gcloud.png" alt="Google Cloud Data Analytics" style="width:100%;height:100%;object-fit:contain"></div>
+        <div class="achimg" style="background:#fff"><img src="assets/ach-gcloud.webp" alt="Google Cloud Data Analytics" loading="lazy" decoding="async" width="168" height="168" style="width:100%;height:100%;object-fit:contain"></div>
         <h3 data-editable>Google Cloud — Data Analytics</h3>
         <p class="pdesc" data-editable>Google Cloud Data Analytics (Beginner) certificate. My first structured step into turning raw data into decisions — and I want to go much deeper.</p>
       </div>
@@ -814,7 +817,7 @@ a{color:inherit}
       
       <div class="pcard">
         <div class="dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
-        <div class="achimg" style="background:#fff"><img src="assets/ach-nptel.png" alt="NPTEL Entrepreneurship" style="width:100%;height:100%;object-fit:contain"></div>
+        <div class="achimg" style="background:#fff"><img src="assets/ach-nptel.webp" alt="NPTEL Entrepreneurship" loading="lazy" decoding="async" width="700" height="503" style="width:100%;height:100%;object-fit:contain"></div>
         <h3 data-editable>NPTEL — Entrepreneurship (Elite)</h3>
         <p class="pdesc" data-editable>Earned an Elite grade in IIT Madras' 12-week NPTEL Entrepreneurship course. Because building the tech is only half the story — I want to understand how ideas become ventures.</p>
       </div>
@@ -823,7 +826,7 @@ a{color:inherit}
       
       <div class="pcard">
         <div class="dots"><span class="red"></span><span class="yellow"></span><span class="green"></span></div>
-        <div class="achimg" style="background:#fff"><img src="assets/ach-lifi.png" alt="Li-Fi system with Arduino" style="width:100%;height:100%;object-fit:cover"></div>
+        <div class="achimg" style="background:#fff"><img src="assets/ach-lifi.webp" alt="Li-Fi system with Arduino" loading="lazy" decoding="async" width="700" height="524" style="width:100%;height:100%;object-fit:cover"></div>
         <h3 data-editable>Li-Fi Data Transfer System</h3>
         <p class="pdesc" data-editable>Built a working Li-Fi system with Arduino — transmitting data over light itself, using an LED to send and an LDR sensor to receive. Watching real text travel across a beam of light was the moment hardware truly clicked for me.</p>
       </div>
@@ -918,6 +921,16 @@ a{color:inherit}
     </div>
   </div>
 </section>
+
+<nav aria-label="Sections" style="position:relative;z-index:2;background:var(--panel);color:var(--panelfg);padding:28px clamp(18px,4vw,56px);display:flex;justify-content:center;flex-wrap:wrap;gap:10px 28px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;border-top:1px solid var(--line)">
+  <a href="#experience" style="color:inherit;text-decoration:none;opacity:.7">Experience</a>
+  <a href="#work" style="color:inherit;text-decoration:none;opacity:.7">Projects</a>
+  <a href="#skills" style="color:inherit;text-decoration:none;opacity:.7">Toolkit</a>
+  <a href="#achievements" style="color:inherit;text-decoration:none;opacity:.7">Wins</a>
+  <a href="#resume" style="color:inherit;text-decoration:none;opacity:.7">Résumé</a>
+  <a href="#about" style="color:inherit;text-decoration:none;opacity:.7">About</a>
+  <a href="#contact" style="color:inherit;text-decoration:none;opacity:.7">Contact</a>
+</nav>
 
 <footer style="position:relative;z-index:2;background:var(--panel);color:var(--panelfg);padding:24px clamp(18px,4vw,56px);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;border-top:1px solid var(--line)">
   <span>© <span data-year>2026</span> DAKSH MAHERA</span>

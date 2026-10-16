@@ -1,146 +1,239 @@
-<div align="center">
+&lt;div align=&quot;center&quot;&gt;
 
-# `DM.` — Daksh Mahera · Portfolio
 
-**Architect. Builder. Overthinker. Maker.**
 
-A cinematic, single-file personal portfolio — Iron-Man "suit-up" hero, an interactive 3D globe, a hand-built custom cursor, light/dark theming, and a fully responsive layout. No frameworks, no build step. Just craft.
+# 🚀 Enterprise Rootless Portfolio Container on RHEL 9
 
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)](#)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)](#)
-[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)](#)
-[![No Build](https://img.shields.io/badge/build-none-brightgreen?style=flat-square)](#)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](#-license)
+[Docker Pulls](https://www.google.com/search?q=https%3A%2F%2Fhub.docker.com%2Fr%2Fdakshmahera22%2Fportfolio)
+[Red Hat RCAT](https://www.google.com/search?q=https%3A%2F%2Fwww.redhat.com%2F)
+[RHEL 9](https://www.google.com/search?q=https%3A%2F%2Fdocs.redhat.com%2Fen%2Fdocumentation%2Fred_hat_enterprise_linux%2F9%2Fhtml%2Fbuilding_running_and_managing_containers%2Fassembly_starting-with-containers_building-running-and-managing-containers)
+[Podman](https://www.google.com/search?q=https%3A%2F%2Fpodman.io%2F)
+[Nginx](https://www.google.com/search?q=https%3A%2F%2Fcatalog.redhat.com%2Fsoftware%2Fcontainers%2Fubi9%2Fnginx-124%2F657b066b6c1bc124a1d7ff39)
+[systemd](https://www.google.com/search?q=https%3A%2F%2Fdocs.redhat.com%2Fen%2Fdocumentation%2Fred_hat_enterprise_linux%2F9%2Fhtml%2Fbuilding_running_and_managing_containers%2Fassembly_starting-with-containers_building-running-and-managing-containers)
+[SELinux](https://www.google.com/search?q=https%3A%2F%2Fdocs.redhat.com%2Fen%2Fdocumentation%2Fred_hat_enterprise_linux%2F9%2F)
+[License](https://www.google.com/search?q=LICENSE)
 
-[**Live Demo →**](#) · [**Report a bug →**](#) · [**Connect →**](mailto:maheradaksh1@gmail.com)
+<br/>
 
-</div>
+> 🏆 **Capstone Project — Summer Internship 2025**  
+> Developed by **Daksh Mahera** during professional training at **Red Hat / RCAT (Rajasthan Centre for Advanced Technology)**.  
+> Demonstrates production container engineering, unprivileged user namespaces, SELinux policy enforcement, and declarative service auto-healing on Red Hat Enterprise Linux 9.
 
----
-
-## ✦ Overview
-
-This is my personal corner of the internet — a portfolio that treats first impressions as a design problem worth solving. It opens with an interactive **"SUIT UP"** hero that assembles an Iron-Man visor over my photo, then unfolds into a scrollable story: experience, projects, a live toolkit, achievements, and the ways to reach me.
-
-Everything lives in **one self-contained HTML file**. It's fast, portable, and hackable — open it in a browser and it just runs.
+&lt;/div&gt;
 
 ---
 
-## ✦ Features
+## ⚡ Instant Run — Experience the Portfolio in 5 Seconds
 
-| | |
-|---|---|
-| 🦾 **Suit-up hero** | Iron-Man reveal animation — four armor panels fly in and assemble on click, with an arc-reactor glow. |
-| 🌍 **Interactive globe** | A draggable, auto-rotating WebGL globe (via `cobe`) marking my base in India, with a hand-drawn canvas fallback. Re-themes instantly with the light/dark lever. |
-| 🎯 **Custom cursor** | A bespoke dot-and-ring cursor with eased motion; the native pointer is fully suppressed on desktop. |
-| ☀️🌙 **Light / dark theme** | A physical "lever" toggle that recolors the entire site — including the globe. |
-| 🌀 **Spinning tech cloud** | A 3D icon cloud of my real stack, rendered from brand logos. |
-| 📜 **Scroll choreography** | Zoom-out intros, reveal-on-scroll sections, and a running marquee of mindset + skills. |
-| 📱 **Fully responsive** | Fluid `clamp()` typography, stacking layouts on mobile, and `prefers-reduced-motion` support. |
-| 📄 **One-click résumé** | A download button wired to a single PDF you can swap anytime. |
-| 🗂️ **Sectioned & commented** | Clearly labelled markup and an in-file editing guide so the whole thing is easy to maintain. |
-
----
-
-## ✦ Tech Stack
-
-- **Vanilla HTML5 / CSS3 / JavaScript** — zero frameworks, zero bundler.
-- **[cobe](https://github.com/shuding/cobe)** — the WebGL globe.
-- **[Simple Icons](https://simpleicons.org/)** — brand logos in the tech cloud.
-- **Google Fonts** — `Syne` (display), `Space Grotesk` (body), `Space Mono` (labels).
-
----
-
-## ✦ Getting Started
-
-No install, no dependencies. Clone and open.
+Pull and launch the production container directly from Docker Hub on any Linux, macOS, or Windows machine:
 
 ```bash
-# clone
-git clone https://github.com/dakshxndrm/portfolio.git
-cd portfolio
+# 🐳 Run with Docker
+docker run -d --name daksh-portfolio -p 8080:8080 dakshmahera22/portfolio:latest
 
-# open directly...
-open "Daksh Mahera Portfolio.dc.html"      # macOS
-# or just double-click the file
-
-# ...or serve locally (recommended, so fonts/assets load cleanly)
-python3 -m http.server 8080
-# then visit http://localhost:8080
+# 🦭 Or Run with Podman (RHEL / Fedora / CentOS)
+podman run -d --name daksh-portfolio -p 8080:8080 docker.io/dakshmahera22/portfolio:latest
 ```
 
-> **Note:** the globe and web-fonts load from a CDN, so the first paint needs an internet connection. Everything else works offline.
+🌐 **Open in Browser:** [http://localhost:8080](https://www.google.com/search?q=http%3A%2F%2Flocalhost%3A8080)  
+🔗 **Live Cloud Deployment:** [dakshxmahera.vercel.app](https://www.google.com/search?q=https%3A%2F%2Fdakshxmahera.vercel.app)  
+📦 **Docker Hub Image Registry:** [hub.docker.com/r/dakshmahera22/portfolio](https://www.google.com/search?q=https%3A%2F%2Fhub.docker.com%2Fr%2Fdakshmahera22%2Fportfolio)  
+💻 **GitHub Source Code:** [github.com/dakshxndrm/podman-portfolio-container](https://www.google.com/search?q=https%3A%2F%2Fgithub.com%2Fdakshxndrm%2Fpodman-portfolio-container)
 
 ---
 
-## ✦ Project Structure
+## 🛡️ Why Enterprise RHEL 9 & Podman Over Legacy Docker?
 
+Traditional container runtimes rely on a central daemon running with full `root` privileges. A single container escape can compromise the entire host operating system. This project implements the **Red Hat enterprise gold standard**:
+
+| 🌟 Capability | ⚙️ Technical Mechanism | 💡 Security & Operational Advantage |
+| :--- | :--- | :--- |
+| **🦭 Daemonless Architecture** | Podman executes directly via OCI runtimes (`runc`/`crun`) without a background daemon socket | Zero daemon attack surface; no single point of failure |
+| **👤 Rootless Namespaces** | The entire container runs inside an unprivileged user namespace mapped to UID `1001` | Even if breached, the attacker remains an unprivileged user with zero host access |
+| **🔒 SELinux MCS Confinement** | Enforces `container_t` process boundary labels and `:Z` volume relabeling | Blocks host filesystem traversal, socket snooping, and kernel exploitation |
+| **🔄 systemd Quadlets** | Declarative `.container` files compiled into native system services on boot | Instant crash auto-restart (`Restart=always`) and seamless system reboot persistence |
+| **🏢 Red Hat UBI 9 Runtime** | Built on enterprise-grade [ubi9/nginx-124](https://www.google.com/search?q=https%3A%2F%2Fcatalog.redhat.com%2Fsoftware%2Fcontainers%2Fubi9%2Fnginx-124%2F657b066b6c1bc124a1d7ff39) | Regularly audited CVE patches, minimal footprint, and hardened defaults |
+
+---
+
+## 📐 Architecture & Traffic Flow
+
+```mermaid
+flowchart TD
+    subgraph Host[🖥️ RHEL 9 Enterprise Host System]
+        FW[🔥 firewalld: TCP Port 8080 Ingress]
+        SYS[⚙️ systemd Quadlet Engine: portfolio.container]
+        SEL[🛡️ SELinux Type Enforcement: container_t / MCS]
+    end
+
+    subgraph OCI[📦 Rootless Podman Container Environment]
+        IMG[🏷️ docker.io/dakshmahera22/portfolio:latest]
+        UBI[🏢 Red Hat UBI 9 Nginx 1.24 - Non-Root UID 1001]
+        WEB[🌐 Production Web Application: HTML5 / CSS3 / JS]
+    end
+
+    SYS -->|Auto-Restart on Boot & Failure Recovery| OCI
+    SEL -->|Hardware-Level Process Isolation| OCI
+    FW -->|Routes Ingress Traffic| OCI
+    IMG --> UBI
+    UBI --> WEB
 ```
-.
-├── Daksh Mahera Portfolio.dc.html   # the entire site (markup + styles + logic)
-├── image-slot.js                    # drag-and-drop image helper (achievements)
-├── support.js                       # runtime
-└── assets/
-    ├── face.png                     # hero photo
-    ├── ironman-cut.png              # suit-up overlay
-    └── Daksh-Mahera-Resume.pdf      # résumé served by the Download button
+
+---
+
+## 🛠️ Complete Hands-On Tutorial: Build It Yourself on RHEL 9
+
+Follow this field-tested guide to build, containerize, automate, and publish your own portfolio container on Red Hat Enterprise Linux 9.
+
+### Step 1 🚀: Configure RHEL 9 Package Repositories
+On a fresh RHEL 9 instance, connect to Red Hat Subscription Manager or configure standard mirrors:
+```bash
+sudo subscription-manager register --auto-attach
+```
+*(Or configure free RHEL 9 binary-compatible public mirrors in `/etc/yum.repos.d/` on non-subscribed development machines).*
+
+### Step 2 📦: Install Container Tools & OCI Runtime
+```bash
+sudo dnf install -y container-tools git firewalld runc
+```
+
+### Step 3 📂: Clone the Repository & Setup Structure
+```bash
+git clone https://github.com/dakshxndrm/podman-portfolio-container.git
+cd podman-portfolio-container
+mkdir -p nginx systemd src
+```
+Copy your portfolio frontend files (`index.html`, `assets/`, `*.js`, `*.css`) into `src/`.
+
+### Step 4 🌐: Configure Enterprise Nginx Routing (`nginx/default.conf`)
+Red Hat's UBI 9 Nginx includes configuration snippets inside its default `server { ... }` block. Create `nginx/default.conf`:
+
+```nginx
+location / {
+    root   /opt/app-root/src;
+    index  index.html index.htm;
+    try_files $uri $uri/ /index.html;
+}
+
+# Caching for high-performance static assets
+location ~* \.(?:css|js|jpg|jpeg|gif|png|ico|svg|webp|pdf)$ {
+    root /opt/app-root/src;
+    expires 30d;
+    add_header Cache-Control "public, immutable";
+}
+```
+
+### Step 5 🐳: Craft the Production `Containerfile`
+Create `Containerfile` in your repository root:
+
+```dockerfile
+FROM registry.access.redhat.com/ubi9/nginx-124:latest
+
+# Copy web files into the official Red Hat UBI 9 web root
+COPY src/ /opt/app-root/src/
+
+# Copy custom SPA routing into Nginx default directory
+COPY nginx/default.conf /opt/app-root/etc/nginx.default.d/portfolio.conf
+
+# Enforce strict unprivileged execution
+USER 1001
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
+```
+
+### Step 6 ⚙️: Set Default OCI Runtime to runc
+```bash
+sudo mkdir -p /etc/containers
+cat << 'EOF' | sudo tee /etc/containers/containers.conf
+[engine]
+runtime = "runc"
+EOF
+```
+
+### Step 7 🧪: Build and Test the Image Locally
+```bash
+podman build -t localhost/daksh-portfolio:latest .
+podman run -d --name test-portfolio -p 8080:8080 localhost/daksh-portfolio:latest
+curl -I http://localhost:8080
+podman rm -f test-portfolio
+```
+
+### Step 8 🔄: Configure systemd Quadlet Service (Auto-Start at Boot)
+RHEL 9's **Quadlets** automatically turn container files into native `systemd` services without fragile bash scripts.
+
+Create `/etc/containers/systemd/portfolio.container`:
+
+```ini
+[Unit]
+Description=Daksh Mahera Portfolio Container Service
+After=network-online.target
+
+[Container]
+Image=localhost/daksh-portfolio:latest
+ContainerName=daksh-portfolio
+PublishPort=8080:8080
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Reload systemd and activate the service:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now portfolio.service
+sudo systemctl status portfolio.service
+```
+
+### Step 9 🔥: Open RHEL 9 Firewall Port
+```bash
+sudo firewall-cmd --permanent --add-port=8080/tcp
+sudo firewall-cmd --reload
+```
+
+### Step 10 🚀: Publish to Docker Hub
+```bash
+podman login docker.io
+podman tag localhost/daksh-portfolio:latest docker.io/dakshmahera22/portfolio:latest
+podman push docker.io/dakshmahera22/portfolio:latest
 ```
 
 ---
 
-## ✦ Customising It
+## 🔍 Verification & Operations Command Center
 
-The main file opens with a built-in **editing guide** comment that maps every section. Quick reference:
-
-| Want to change… | Go to… |
-|---|---|
-| Colors / accent | `THEME TOKENS` block (top of `<style>`) — edit `--acc`, `--bg`, etc. |
-| Fonts | Same token block (`--disp`, `--body`, `--mono`) + the Google Fonts `<link>`. |
-| Name / headline | `<!-- ===== HERO ===== -->` |
-| Experience / Projects / Achievements | The matching `<!-- ===== SECTION ===== -->`; copy any `<div data-item>…</div>` to add one. |
-| Skills / toolkit | `<!-- ===== SKILLS ===== -->` for chips; `const slugs = [...]` in the script for the icon cloud. |
-| Résumé | Replace `assets/Daksh-Mahera-Resume.pdf` (keep the name). |
-| Links / socials | `<!-- ===== CONTACT ===== -->` |
+| 🎯 Action | 💻 RHEL 9 Command |
+| :--- | :--- |
+| **Check service health** | `systemctl status portfolio.service` |
+| **Stream live container logs** | `journalctl -u portfolio.service -f` |
+| **Inspect running containers** | `podman ps` |
+| **Verify user namespace UID mapping** | `podman top daksh-portfolio user huser` |
+| **Inspect SELinux confinement label** | `ps -eZ \| grep nginx` |
+| **Test local HTTP response** | `curl -I http://localhost:8080` |
 
 ---
 
-## ✦ Deployment
+## 👨‍💻 Author & Acknowledgements
 
-It's static — host it anywhere:
+&lt;div align=&quot;center&quot;&gt;
 
-- **GitHub Pages** — push to a repo, enable Pages on the branch.
-- **Netlify / Vercel / Cloudflare Pages** — drag the folder in, or connect the repo.
+**Daksh Mahera**  
+*AI/ML · Data Science · RAG Systems · Software Engineering*
 
-Deploy the **whole folder** (the HTML file *and* the `assets/` folder together) so the photo and résumé resolve.
+[LinkedIn](https://www.google.com/search?q=https%3A%2F%2Fin.linkedin.com%2Fin%2Fdaksh-mahera)
+[Portfolio](https://www.google.com/search?q=https%3A%2F%2Fdakshxmahera.vercel.app)
+[GitHub](https://www.google.com/search?q=https%3A%2F%2Fgithub.com%2Fdakshxndrm)
+[Docker Hub](https://www.google.com/search?q=https%3A%2F%2Fhub.docker.com%2Fr%2Fdakshmahera22%2Fportfolio)
 
----
+<br/>
 
-## ✦ Roadmap
+🎓 **Project Context:** Completed as part of the **Summer Internship 2025** at **Red Hat / RCAT (Rajasthan Centre for Advanced Technology)**, Jaipur.
 
-- [ ] Wire up a live-demo URL badge
-- [ ] Add project case-study deep-dives
-- [ ] Blog / writing section
-- [ ] Offline-first bundle (inline the CDN assets)
+&lt;sub&gt;Built with curiosity, careful experiments, and a bias toward shipping useful things.&lt;/sub&gt;
 
----
 
-## ✦ Contact
 
-**Daksh Mahera** — engineering student, relentless builder.
-
-- ✉️ [maheradaksh1@gmail.com](mailto:maheradaksh1@gmail.com)
-- 💼 [LinkedIn](https://www.linkedin.com/in/daksh-mahera/)
-- 🐙 [GitHub](https://github.com/dakshxndrm)
-- 🧩 [LeetCode](https://leetcode.com/u/maheradaksh22/)
-
----
-
-## ✦ License
-
-Released under the **MIT License** — use it, learn from it, fork it. The photos, résumé, and personal content are mine; please swap those for your own.
-
-<div align="center">
-
-*Built with curiosity, caffeine, and a lot of `git commit --amend`.*
-
-</div>
+&lt;/div&gt;
